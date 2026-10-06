@@ -34,23 +34,27 @@
     background:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.14'/%3E%3C/svg%3E");
     opacity:.55;pointer-events:none;mix-blend-mode:overlay;
   }
-  #splash .vignette{
-    position:absolute;inset:0;
-    background:radial-gradient(ellipse at center, transparent 25%, rgba(0,0,0,.95) 100%);
-    pointer-events:none;
-  }
+
+  /* Пульсирующее красное пятно за текстом */
   #splash .aura{
     position:absolute;
-    width:120vmin;height:120vmin;
+    width:130vmin;height:130vmin;
     top:50%;left:50%;
     transform:translate(-50%,-50%);
-    background:radial-gradient(circle, rgba(120,0,15,.35), rgba(60,0,10,.1) 40%, transparent 70%);
+    background:radial-gradient(circle, rgba(255,0,51,.22), rgba(140,0,25,.08) 40%, transparent 72%);
     pointer-events:none;
-    animation:auraPulse 4s ease-in-out infinite;
+    animation:auraPulse 5s ease-in-out infinite;
+    filter:blur(20px);
   }
   @keyframes auraPulse{
-    0%,100%{opacity:.7;transform:translate(-50%,-50%) scale(1)}
-    50%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}
+    0%,100%{opacity:.75;transform:translate(-50%,-50%) scale(1)}
+    50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}
+  }
+
+  #splash .vignette{
+    position:absolute;inset:0;
+    background:radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,.96) 100%);
+    pointer-events:none;
   }
 
   #splash .kicker{
@@ -58,7 +62,7 @@
     font-family:'JetBrains Mono',monospace;
     font-size:10px;letter-spacing:.45em;
     color:#6b6b6b;text-transform:uppercase;
-    margin-bottom:22px;
+    margin-bottom:26px;
     opacity:0;
     animation:fadeUp .9s .2s ease forwards;
   }
@@ -68,139 +72,95 @@
     position:relative;z-index:2;
     font-family:'Bebas Neue','Impact','Arial Black',sans-serif;
     font-weight:900;
-    font-size:clamp(48px, 15vw, 92px);
+    font-size:clamp(52px, 16vw, 100px);
     line-height:.9;
-    letter-spacing:.02em;
-    color:#f0eeea;
-    text-shadow:0 0 60px rgba(255,0,51,.4);
-    margin-bottom:14px;
+    letter-spacing:.03em;
+    color:#f5f3ef;
+    text-shadow:
+      0 0 30px rgba(255,0,51,.25),
+      0 2px 0 rgba(0,0,0,.6);
+    margin-bottom:18px;
     opacity:0;
     animation:fadeUp 1s .35s ease forwards;
   }
 
-  /* ======= КРОВАВАЯ РАЯ ======= */
-  #splash .bloody{
+  /* ======= КРАСНАЯ "фо Рая" — БЕЗ КРОВИ, ЧИТАЕМО ======= */
+  #splash .redline{
+    display:block;
     position:relative;
-    display:inline-block;
-    animation:bloodPulse 3s ease-in-out infinite;
-    /* чтобы капли могли «вылезать» вниз */
-    overflow:visible;
-    line-height:1;
-  }
-
-  /* КАЖДАЯ БУКВА — отдельный блок, из него и течёт */
-  #splash .letter{
-    position:relative;
-    display:inline-block;
-    color:#a6000f;
-    background:
-      linear-gradient(180deg, #ff1a3a 0%, #b30015 45%, #5c0009 100%);
-    -webkit-background-clip:text;
-    background-clip:text;
-    -webkit-text-fill-color:transparent;
+    color:#ff0033;
+    /* свечение вокруг букв, но сами буквы остаются плотными */
     text-shadow:
-      0 0 30px rgba(255,0,51,.85),
-      0 0 60px rgba(255,0,51,.4);
-    /* drips вылезают наружу, букву не обрезаем */
-    overflow:visible;
-    vertical-align:baseline;
+      0 0 8px rgba(255,0,51,.9),
+      0 0 22px rgba(255,0,51,.7),
+      0 0 48px rgba(255,0,51,.45),
+      0 3px 0 rgba(0,0,0,.5);
+    animation:redPulse 3.2s ease-in-out infinite;
+    letter-spacing:.04em;
   }
-
-  @keyframes bloodPulse{
+  @keyframes redPulse{
     0%,100%{
-      filter:drop-shadow(0 0 10px rgba(255,0,51,.7)) brightness(1);
+      text-shadow:
+        0 0 8px rgba(255,0,51,.85),
+        0 0 22px rgba(255,0,51,.6),
+        0 0 44px rgba(255,0,51,.35),
+        0 3px 0 rgba(0,0,0,.5);
     }
     50%{
-      filter:drop-shadow(0 0 22px rgba(255,0,51,1)) brightness(1.18);
+      text-shadow:
+        0 0 12px rgba(255,0,51,1),
+        0 0 32px rgba(255,0,51,.85),
+        0 0 68px rgba(255,0,51,.55),
+        0 3px 0 rgba(0,0,0,.5);
     }
   }
 
-  /* Брызги за текстом */
-  #splash .bloody::before{
+  /* тонкая красная линия под надписью — как траурная/нуарная */
+  #splash .redline::after{
     content:'';
     position:absolute;
-    inset:-40% -25%;
-    background:
-      radial-gradient(circle at 12% 55%, rgba(180,0,20,.55) 0 4px, transparent 6px),
-      radial-gradient(circle at 88% 40%, rgba(180,0,20,.5) 0 5px, transparent 7px),
-      radial-gradient(circle at 22% 25%, rgba(120,0,15,.45) 0 3px, transparent 5px),
-      radial-gradient(circle at 78% 78%, rgba(180,0,20,.55) 0 4px, transparent 6px),
-      radial-gradient(circle at 45% 12%, rgba(180,0,20,.4) 0 3px, transparent 5px),
-      radial-gradient(circle at 62% 92%, rgba(180,0,20,.5) 0 4px, transparent 6px),
-      radial-gradient(circle at 5% 90%, rgba(120,0,15,.4) 0 3px, transparent 5px),
-      radial-gradient(circle at 95% 8%, rgba(180,0,20,.45) 0 3px, transparent 5px);
-    pointer-events:none;
-    z-index:-1;
-    opacity:0;
-    animation:splatter .8s .9s ease forwards;
-    filter:blur(.3px);
+    left:50%;bottom:-10px;
+    transform:translateX(-50%) scaleX(0);
+    width:70%;
+    height:1px;
+    background:linear-gradient(90deg, transparent, #ff0033 30%, #ff0033 70%, transparent);
+    box-shadow:0 0 12px rgba(255,0,51,.8);
+    animation:lineGrow 1.2s 1.3s ease forwards;
+    transform-origin:center;
   }
-  @keyframes splatter{
-    0%{opacity:0;transform:scale(.7)}
-    60%{opacity:1;transform:scale(1.08)}
-    100%{opacity:.9;transform:scale(1)}
-  }
-
-  /* ===== КАПЛИ, стекающие с каждой буквы ===== */
-  #splash .drip{
-    position:absolute;
-    top:100%;           /* стартуем с нижней границы буквы */
-    width:5px;
-    height:0;
-    background:linear-gradient(180deg, #b30015 0%, #8b000e 50%, #4a0008 100%);
-    border-radius:0 0 50% 50% / 0 0 30% 30%;
-    box-shadow:0 0 8px rgba(255,0,51,.45);
-    animation:dripGrow linear forwards;
-    pointer-events:none;
-    /* небольшая корректировка: у Bebas Neue буквы сидят низко */
-    margin-top:-1px;
-  }
-  #splash .drip::after{
-    content:'';
-    position:absolute;
-    bottom:-6px;left:50%;
-    width:11px;height:11px;
-    background:radial-gradient(circle at 35% 30%, #d90020, #6b000d 70%, #2b0004);
-    border-radius:50%;
-    transform:translateX(-50%);
-    box-shadow:0 0 6px rgba(255,0,51,.55);
-  }
-  #splash .drip.thin{width:3px}
-  #splash .drip.thin::after{width:8px;height:8px;bottom:-4px}
-  #splash .drip.thick{width:7px}
-  #splash .drip.thick::after{width:14px;height:14px;bottom:-7px}
-
-  @keyframes dripGrow{
-    from{height:0}
-    to{height:var(--h)}
+  @keyframes lineGrow{
+    to{transform:translateX(-50%) scaleX(1)}
   }
 
   #splash .sub{
     position:relative;z-index:2;
     font-family:'Cormorant Garamond',Georgia,serif;
     font-style:italic;
-    font-size:16px;
+    font-size:17px;
     color:#8a8a8a;
-    margin-top:26px;
+    margin-top:34px;
     opacity:0;
-    animation:fadeUp 1s .6s ease forwards;
+    animation:fadeUp 1s .8s ease forwards;
   }
+
   #splash .mark{
     position:relative;z-index:2;
-    font-size:34px;color:#ff0033;
-    text-shadow:0 0 30px #ff0033;
-    margin:22px 0 8px;
+    font-size:32px;color:#ff0033;
+    text-shadow:0 0 28px #ff0033;
+    margin:20px 0 6px;
     opacity:0;
-    animation:fadeUp .9s .75s ease forwards, pulse 2s 1.5s ease-in-out infinite;
+    animation:fadeUp .9s .95s ease forwards, pulse 2s 1.6s ease-in-out infinite;
   }
+
   #splash .tap{
     position:absolute;bottom:56px;left:0;right:0;
     font-family:'JetBrains Mono',monospace;
     font-size:10px;letter-spacing:.45em;
     color:#5a5a5a;text-transform:uppercase;
     opacity:0;
-    animation:fadeUp 1s 1.1s ease forwards, blink 1.8s 2s steps(2) infinite;
+    animation:fadeUp 1s 1.3s ease forwards, blink 1.8s 2.2s steps(2) infinite;
   }
+
   @keyframes fadeUp{
     from{opacity:0;transform:translateY(14px)}
     to{opacity:1;transform:translateY(0)}
@@ -250,16 +210,8 @@
   <div class="kicker">one-off <span class="r">·</span> made just for you</div>
 
   <div class="title">
-    Спешил<br>
-    <!-- каждая буква в своём span, drips добавляются туда динамически -->
-    <span class="bloody" id="bloody"
-      ><span class="letter" data-drips="2">ф</span
-      ><span class="letter" data-drips="1">о</span
-      ><!-- пробел не трогаем -->&nbsp;<span
-        class="letter" data-drips="2">Р</span
-      ><span class="letter" data-drips="1">а</span
-      ><span class="letter" data-drips="2">я</span
-    ></span>
+    Спешил
+    <span class="redline">фо Рая</span>
   </div>
 
   <div class="mark">✝</div>
@@ -275,48 +227,6 @@
 <script>
 (function(){
   'use strict';
-
-  /* ========= Капли, стекающие С КАЖДОЙ БУКВЫ ========= */
-  (function makeDrips(){
-    const target = document.getElementById('bloody');
-    if (!target) return;
-
-    function build(){
-      const letters = target.querySelectorAll('.letter');
-      letters.forEach(letter => {
-        const rect = letter.getBoundingClientRect();
-        const w = rect.width;
-        const count = parseInt(letter.dataset.drips || '0', 10);
-        if (!count || w < 4) return;
-
-        for (let i = 0; i < count; i++){
-          // распределяем капли по ширине буквы
-          const xPct = 0.18 + Math.random() * 0.64;
-          const rand = Math.random();
-          const type = rand < 0.28 ? 'thin' : (rand > 0.72 ? 'thick' : '');
-          const delay = 0.9 + Math.random() * 1.0;
-          const dur   = 3.5 + Math.random() * 3.0;
-          const h     = 30 + Math.random() * 100;
-
-          const drip = document.createElement('div');
-          drip.className = 'drip' + (type ? ' ' + type : '');
-          drip.style.left = (w * xPct) + 'px';
-          drip.style.setProperty('--h', h + 'px');
-          drip.style.animationDelay = delay + 's';
-          drip.style.animationDuration = dur + 's';
-          letter.appendChild(drip);
-        }
-      });
-    }
-
-    if (document.fonts && document.fonts.ready){
-      document.fonts.ready.then(() => setTimeout(build, 50));
-    } else {
-      setTimeout(build, 400);
-    }
-    // подстраховка на медленных телефонах
-    setTimeout(build, 1200);
-  })();
 
   /* ================= Canvas ================= */
   const canvas = document.getElementById('c');

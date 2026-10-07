@@ -1164,21 +1164,25 @@ document.getElementById('bonusStopBtn').addEventListener('click', () => {
 
 document.getElementById('bonusAutoBtn').addEventListener('click', () => {
   if (!bonusState || bonusState.stopped) return;
-  const remaining = [];
+
+  const allClosed = [];
   for (let i = 0; i < bonusState.tiles.length; i++){
-    if (bonusState.tiles[i].type === 'reward'){
-      const el = document.querySelector('.bonus-tile[data-idx="' + i + '"]');
-      if (el && !el.classList.contains('revealed')) remaining.push(i);
-    }
+    const el = document.querySelector('.bonus-tile[data-idx="' + i + '"]');
+    if (el && !el.classList.contains('revealed')) allClosed.push(i);
   }
-  if (remaining.length === 0){ endBonus(true); return; }
+
+  if (allClosed.length === 0){ endBonus(true); return; }
+
   let i = 0;
   const iv = setInterval(() => {
-    if (!bonusState || bonusState.stopped){ clearInterval(iv); return; }
-    onBonusTileClick(remaining[i]);
+    if (!bonusState || bonusState.stopped){
+      clearInterval(iv);
+      return;
+    }
+    onBonusTileClick(allClosed[i]);
     i++;
-    if (i >= remaining.length) clearInterval(iv);
-  }, 220);
+    if (i >= allClosed.length) clearInterval(iv);
+  }, 350);
 });
 
 document.addEventListener('keydown', e => {

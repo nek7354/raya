@@ -635,6 +635,7 @@
 
     <div class="shop-list" id="shopList"></div>
 
+    <button class="btn gold" id="showFinalBtn" style="margin-bottom:10px">🏆 посмотреть финал</button>
     <button class="btn ghost" id="backBtn">← назад к автомату</button>
   </div>
 
@@ -648,6 +649,7 @@
 
     <div class="final-list" id="finalList"></div>
 
+    <button class="btn" id="continueBtn" style="margin-bottom:10px">← вернуться к игре</button>
     <button class="btn ghost" id="againBtn">↺ играть заново</button>
   </div>
 
@@ -719,7 +721,7 @@ const PAYTABLE = {
 };
 
 /* =========================================================
-   МАГАЗИН — цены подняты
+   МАГАЗИН
    ========================================================= */
 const SHOP = [
   {
@@ -764,7 +766,7 @@ const SHOP = [
       cls: 'gold'
     }
   },
-   {
+  {
     id: 'call',
     name: 'Позвонить бывшему',
     desc: 'плохая идея. но дёшево.',
@@ -772,9 +774,9 @@ const SHOP = [
     icoCls: '',
     price: 10000,
     after: {
-      ico: '📞',
-      title: 'ты позвонила',
-      text: 'он не взял трубку. возможно, это лучший исход.',
+      ico: '☎️',
+      title: 'Проебала деньги на хуйню...',
+      text: 'он не взял трубку. зато ты потратила 10 000.',
       cls: ''
     }
   },
@@ -815,8 +817,7 @@ function toast(text){
 }
 
 /* =========================================================
-   БАРАБАНЫ
-   Тут ИСПРАВЛЕНО: сдвиг на -30, чтобы показывался финальный символ
+   БАРАБАНЫ — сдвиг на -30 чтобы показывался финальный символ
    ========================================================= */
 function initReels(){
   for (let i = 1; i <= 3; i++){
@@ -1153,7 +1154,8 @@ function showPurchaseModal(item){
   title.classList.toggle('gold', item.after.cls === 'gold');
 
   overlay.classList.add('on');
-  overlay.dataset.after = item.id === 'box' ? 'final' : '';
+  // авто-финал убран — просто закрываем и возвращаемся в магазин
+  overlay.dataset.after = '';
 }
 
 function closePurchaseModal(){
@@ -1220,6 +1222,17 @@ document.getElementById('shopBtn').addEventListener('click', () => {
 
 document.getElementById('backBtn').addEventListener('click', () => {
   show('scr2');
+  if (navigator.vibrate) navigator.vibrate(8);
+});
+
+document.getElementById('showFinalBtn').addEventListener('click', () => {
+  showFinal();
+  if (navigator.vibrate) navigator.vibrate(15);
+});
+
+document.getElementById('continueBtn').addEventListener('click', () => {
+  show('scrShop');
+  renderShop();
   if (navigator.vibrate) navigator.vibrate(8);
 });
 

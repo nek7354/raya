@@ -507,52 +507,6 @@
     margin-bottom:20px;
   }
 
-  /* Финал */
-  .plane{
-    font-size:80px;line-height:1;
-    margin-bottom:14px;
-    animation:fly 3s ease-in-out infinite;
-  }
-  @keyframes fly{
-    0%,100%{transform:translateX(0) rotate(-2deg)}
-    50%{transform:translateX(8px) rotate(2deg)}
-  }
-
-  .final-title{
-    font-family:'Bebas Neue','Impact',sans-serif;
-    font-size:clamp(38px, 12vw, 64px);
-    line-height:.92;letter-spacing:.02em;
-    color:#fff;
-    text-shadow:0 0 40px rgba(212,175,55,.7);
-    margin-bottom:14px;
-  }
-  .final-title .gold{color:#d4af37;display:block}
-  .final-sub{
-    font-family:'Cormorant Garamond',Georgia,serif;
-    font-style:italic;
-    font-size:18px;color:#c8c5bf;
-    margin-bottom:24px;line-height:1.4;
-  }
-
-  .final-list{
-    background:rgba(255,255,255,.04);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:12px;
-    padding:14px 16px;
-    margin-bottom:20px;
-    text-align:left;
-  }
-  .final-list .row{
-    display:flex;align-items:center;gap:10px;
-    font-size:13px;color:#c8c5bf;
-    padding:6px 0;
-    border-bottom:1px solid rgba(255,255,255,.05);
-  }
-  .final-list .row:last-child{border-bottom:none}
-  .final-list .row .ic{font-size:18px;flex-shrink:0}
-  .final-list .row .nm{flex:1}
-  .final-list .row .ck{color:#2fb38a;font-weight:700}
-
   .toast{
     position:fixed;bottom:20px;left:50%;
     transform:translateX(-50%) translateY(120px);
@@ -635,22 +589,7 @@
 
     <div class="shop-list" id="shopList"></div>
 
-    <button class="btn gold" id="showFinalBtn" style="margin-bottom:10px">🏆 посмотреть финал</button>
     <button class="btn ghost" id="backBtn">← назад к автомату</button>
-  </div>
-
-  <!-- Финал -->
-  <div class="screen" id="scr3">
-    <div class="plane">✈️</div>
-    <div class="final-title">
-      ПУТЁВКА<span class="gold">В ПИТЕР!</span>
-    </div>
-    <p class="final-sub">ты доиграла до конца.<br>собирай чемодан ✝</p>
-
-    <div class="final-list" id="finalList"></div>
-
-    <button class="btn" id="continueBtn" style="margin-bottom:10px">← вернуться к игре</button>
-    <button class="btn ghost" id="againBtn">↺ играть заново</button>
   </div>
 
 </div>
@@ -817,7 +756,7 @@ function toast(text){
 }
 
 /* =========================================================
-   БАРАБАНЫ — сдвиг на -30 чтобы показывался финальный символ
+   БАРАБАНЫ
    ========================================================= */
 function initReels(){
   for (let i = 1; i <= 3; i++){
@@ -1154,44 +1093,13 @@ function showPurchaseModal(item){
   title.classList.toggle('gold', item.after.cls === 'gold');
 
   overlay.classList.add('on');
-  // авто-финал убран — просто закрываем и возвращаемся в магазин
-  overlay.dataset.after = '';
 }
 
 function closePurchaseModal(){
   const overlay = document.getElementById('purchaseOverlay');
   overlay.classList.remove('on');
-
-  const after = overlay.dataset.after;
-  overlay.dataset.after = '';
-
-  if (after === 'final'){
-    setTimeout(showFinal, 400);
-  } else {
-    renderShop();
-    updateHud();
-  }
-}
-
-/* =========================================================
-   ФИНАЛ
-   ========================================================= */
-function showFinal(){
-  const list = document.getElementById('finalList');
-  let html = '';
-  for (const item of SHOP){
-    const bought = !!purchases[item.id];
-    html +=
-      '<div class="row">' +
-        '<span class="ic">' + item.ico + '</span>' +
-        '<span class="nm">' + item.name + '</span>' +
-        '<span class="ck">' + (bought ? '✓' : '—') + '</span>' +
-      '</div>';
-  }
-  list.innerHTML = html;
-
-  show('scr3');
-  if (navigator.vibrate) navigator.vibrate([60,80,60,80,120,80,120]);
+  renderShop();
+  updateHud();
 }
 
 /* =========================================================
@@ -1225,17 +1133,6 @@ document.getElementById('backBtn').addEventListener('click', () => {
   if (navigator.vibrate) navigator.vibrate(8);
 });
 
-document.getElementById('showFinalBtn').addEventListener('click', () => {
-  showFinal();
-  if (navigator.vibrate) navigator.vibrate(15);
-});
-
-document.getElementById('continueBtn').addEventListener('click', () => {
-  show('scrShop');
-  renderShop();
-  if (navigator.vibrate) navigator.vibrate(8);
-});
-
 document.getElementById('betRow').addEventListener('click', e => {
   const btn = e.target.closest('[data-bet]');
   if (!btn) return;
@@ -1253,20 +1150,6 @@ document.getElementById('shopList').addEventListener('click', e => {
 });
 
 document.getElementById('purchaseOk').addEventListener('click', closePurchaseModal);
-
-document.getElementById('againBtn').addEventListener('click', () => {
-  balance = 100;
-  bet = 10;
-  spinsTotal = 0;
-  purchases = {};
-  document.querySelectorAll('.bet-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.bet === '10');
-  });
-  document.getElementById('betVal').textContent = bet;
-  updateHud();
-  setMsg('— крути и смотри —', '');
-  show('scr1');
-});
 
 document.getElementById('bonusGrid').addEventListener('click', e => {
   const tile = e.target.closest('.bonus-tile');

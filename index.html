@@ -135,7 +135,7 @@
     margin-top:18px;opacity:.7;
   }
 
-  /* ============ Автомат ============ */
+  /* Автомат */
   .hud{
     display:flex;justify-content:space-between;align-items:flex-start;
     margin-bottom:14px;
@@ -269,7 +269,7 @@
     box-shadow:0 0 14px rgba(255,0,51,.6);
   }
 
-  /* ============ Бонус-раунд ============ */
+  /* Бонус */
   #bonusOverlay{
     position:fixed;inset:0;background:rgba(5,2,8,.96);
     z-index:200;display:none;align-items:center;justify-content:center;
@@ -360,7 +360,7 @@
   .bonus-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .bonus-actions .btn{padding:14px 10px;font-size:16px}
 
-  /* ============ Магазин ============ */
+  /* Магазин */
   .shop-header{
     display:flex;justify-content:space-between;align-items:center;
     margin-bottom:16px;
@@ -419,7 +419,6 @@
     flex-shrink:0;
   }
   .shop-ico.gold{border-color:rgba(212,175,55,.4);background:radial-gradient(circle at 50% 30%, #3a2a00, #150800)}
-  .shop-ico.purple{border-color:rgba(177,0,255,.4);background:radial-gradient(circle at 50% 30%, #2a003a, #0d0015)}
 
   .shop-info .name{
     font-family:'Bebas Neue','Impact',sans-serif;
@@ -461,7 +460,7 @@
     animation:none;
   }
 
-  /* ============ Покупка-модалка ============ */
+  /* Покупка */
   #purchaseOverlay{
     position:fixed;inset:0;background:rgba(5,2,8,.96);
     z-index:210;display:none;align-items:center;justify-content:center;
@@ -508,7 +507,7 @@
     margin-bottom:20px;
   }
 
-  /* ============ Финал с путёвкой ============ */
+  /* Финал */
   .plane{
     font-size:80px;line-height:1;
     margin-bottom:14px;
@@ -573,7 +572,7 @@
 
 <div class="stage">
 
-  <!-- ЭКРАН 1: заставка -->
+  <!-- Заставка -->
   <div class="screen on" id="scr1">
     <div class="kicker">one-off <span class="r">·</span> lucky spin</div>
     <h1 class="title">Спешил<span class="r">фо Рая</span></h1>
@@ -583,7 +582,7 @@
     <div class="hint">100 жетонов · шанс бонуса 12%</div>
   </div>
 
-  <!-- ЭКРАН 2: автомат -->
+  <!-- Автомат -->
   <div class="screen" id="scr2">
     <div class="hud">
       <div>
@@ -624,7 +623,7 @@
     </div>
   </div>
 
-  <!-- ЭКРАН 3: магазин -->
+  <!-- Магазин -->
   <div class="screen" id="scrShop">
     <div class="shop-header">
       <div class="shop-title">🛒 МАГАЗИН</div>
@@ -639,7 +638,7 @@
     <button class="btn ghost" id="backBtn">← назад к автомату</button>
   </div>
 
-  <!-- ЭКРАН 4: финал с путёвкой -->
+  <!-- Финал -->
   <div class="screen" id="scr3">
     <div class="plane">✈️</div>
     <div class="final-title">
@@ -654,7 +653,7 @@
 
 </div>
 
-<!-- ============ БОНУС-РАУНД ============ -->
+<!-- Бонус -->
 <div id="bonusOverlay">
   <div class="bonus-box">
     <div class="bonus-title">БОНУС!</div>
@@ -674,7 +673,7 @@
   </div>
 </div>
 
-<!-- ============ ПОКУПКА-МОДАЛКА ============ -->
+<!-- Покупка -->
 <div id="purchaseOverlay">
   <div class="purchase-box" id="purchaseBox">
     <div class="purchase-ico" id="purchaseIco">✓</div>
@@ -720,30 +719,16 @@ const PAYTABLE = {
 };
 
 /* =========================================================
-   МАГАЗИН
+   МАГАЗИН — цены подняты
    ========================================================= */
 const SHOP = [
-  {
-    id: 'call',
-    name: 'Позвонить бывшему',
-    desc: 'плохая идея. но дёшево.',
-    ico: '☎️',
-    icoCls: '',
-    price: 25,
-    after: {
-      ico: '📞',
-      title: 'ты позвонила',
-      text: 'он не взял трубку. возможно, это лучший исход.',
-      cls: ''
-    }
-  },
   {
     id: 'kick',
     name: 'Пнуть тучу',
     desc: 'просто потому что можешь',
     ico: '☁️',
     icoCls: '',
-    price: 50,
+    price: 120,
     after: {
       ico: '💨',
       title: 'туча пнута',
@@ -757,7 +742,7 @@ const SHOP = [
     desc: 'говорят, она много знает',
     ico: '💬',
     icoCls: '',
-    price: 80,
+    price: 250,
     after: {
       ico: '🗣️',
       title: 'поговорили',
@@ -771,12 +756,26 @@ const SHOP = [
     desc: 'внутри что-то хорошее. очень.',
     ico: '🎁',
     icoCls: 'gold',
-    price: 150,
+    price: 500,
     after: {
       ico: '✈️',
       title: 'ПУТЁВКА В ПИТЕР!',
       text: 'бокс открылся, и оттуда вылетел билет. бери чемодан.',
       cls: 'gold'
+    }
+  },
+   {
+    id: 'call',
+    name: 'Позвонить бывшему',
+    desc: 'плохая идея. но дёшево.',
+    ico: '☎️',
+    icoCls: '',
+    price: 10000,
+    after: {
+      ico: '📞',
+      title: 'ты позвонила',
+      text: 'он не взял трубку. возможно, это лучший исход.',
+      cls: ''
     }
   },
 ];
@@ -788,7 +787,7 @@ let balance = 100;
 let bet = 10;
 let spinning = false;
 let spinsTotal = 0;
-let purchases = {};   // { id: true }
+let purchases = {};
 
 const CELL_H = 96;
 const BONUS_CHANCE = 0.12;
@@ -817,12 +816,13 @@ function toast(text){
 
 /* =========================================================
    БАРАБАНЫ
+   Тут ИСПРАВЛЕНО: сдвиг на -30, чтобы показывался финальный символ
    ========================================================= */
 function initReels(){
   for (let i = 1; i <= 3; i++){
     const inner = document.getElementById('ri' + i);
     inner.innerHTML = randomStrip(30) + makeCell(pickSymbol());
-    inner.style.transform = 'translateY(' + (-29 * CELL_H) + 'px)';
+    inner.style.transform = 'translateY(' + (-30 * CELL_H) + 'px)';
   }
 }
 function spinReel(reelIdx, finalSym, durationMs){
@@ -839,7 +839,7 @@ function spinReel(reelIdx, finalSym, durationMs){
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         inner.style.transition = 'transform ' + durationMs + 'ms cubic-bezier(.15,.8,.2,1)';
-        inner.style.transform  = 'translateY(' + (-29 * CELL_H) + 'px)';
+        inner.style.transform  = 'translateY(' + (-30 * CELL_H) + 'px)';
       });
     });
 
@@ -879,7 +879,6 @@ async function spin(){
   ]);
 
   evaluate(finals);
-
   spinning = false;
 
   if (Math.random() < BONUS_CHANCE){
@@ -1079,7 +1078,6 @@ function updateHud(bump){
     }, 1500);
   }
 }
-
 function setMsg(text, cls){
   const el = document.getElementById('msg');
   el.className = 'msg ' + (cls || '');
@@ -1096,7 +1094,7 @@ function show(id){
 }
 
 /* =========================================================
-   МАГАЗИН: РЕНДЕР
+   МАГАЗИН
    ========================================================= */
 function renderShop(){
   const list = document.getElementById('shopList');
@@ -1123,16 +1121,10 @@ function renderShop(){
   list.innerHTML = html;
 }
 
-/* =========================================================
-   МАГАЗИН: ПОКУПКА
-   ========================================================= */
 function buyItem(id){
   const item = SHOP.find(i => i.id === id);
   if (!item) return;
-  if (purchases[id]){
-    toast('уже куплено');
-    return;
-  }
+  if (purchases[id]){ toast('уже куплено'); return; }
   if (balance < item.price){
     toast('не хватает ' + (item.price - balance) + ' жетонов');
     if (navigator.vibrate) navigator.vibrate([30,40,30]);
@@ -1143,8 +1135,6 @@ function buyItem(id){
   purchases[id] = true;
 
   if (navigator.vibrate) navigator.vibrate([40,60,40,60,80]);
-
-  // показываем модалку покупки
   showPurchaseModal(item);
 }
 
@@ -1163,8 +1153,6 @@ function showPurchaseModal(item){
   title.classList.toggle('gold', item.after.cls === 'gold');
 
   overlay.classList.add('on');
-
-  // если это бокс — после закрытия покажем финал
   overlay.dataset.after = item.id === 'box' ? 'final' : '';
 }
 
@@ -1187,7 +1175,6 @@ function closePurchaseModal(){
    ФИНАЛ
    ========================================================= */
 function showFinal(){
-  // список покупок
   const list = document.getElementById('finalList');
   let html = '';
   for (const item of SHOP){
@@ -1268,7 +1255,6 @@ document.getElementById('againBtn').addEventListener('click', () => {
   show('scr1');
 });
 
-/* бонус */
 document.getElementById('bonusGrid').addEventListener('click', e => {
   const tile = e.target.closest('.bonus-tile');
   if (!tile) return;
@@ -1299,7 +1285,6 @@ document.getElementById('bonusAutoBtn').addEventListener('click', () => {
   }, 220);
 });
 
-/* пробел = крутить */
 document.addEventListener('keydown', e => {
   if (e.code === 'Space' && document.getElementById('scr2').classList.contains('on')
       && !document.getElementById('bonusOverlay').classList.contains('on')
@@ -1309,9 +1294,7 @@ document.addEventListener('keydown', e => {
   }
 });
 
-/* =========================================================
-   СТАРТ
-   ========================================================= */
+/* СТАРТ */
 updateHud();
 
 })();
